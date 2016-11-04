@@ -1,33 +1,29 @@
 package project6;
 
+/**
+  * What does it do?
+  *
+  * @author James Osborne
+  * @version 1.0 
+  * File: <filename>
+  * Created:  11/4/2016
+  * ©Copyright James Osborne. All rights reserved.
+  * Summary of Modifications:
+  *     XX month XXXX – JAO – 
+  * 
+  * Description: 
+  */
 public class ListBinaryTree implements BinaryTree {
+
     private STNode root;
-    private STNode[] tree;
-    private int size = 0;
+    private int size;
     
     public static void main (String[] args) {
-        ListBinaryTree myTree = new ListBinaryTree();
-        myTree.fillTree();
         
-        System.out.println(myTree.root.getLeftChild().element());
     }
     
     public void fillTree() {
-        tree = new STNode[11];
-        
         root = new STNode(new Integer(0), null, null, null);
-        tree[0] = root;
-        
-        for (int i = 1;  i < 11; i += 2) {
-            tree[i] = new STNode(new Integer(i), root, null, null);
-            tree[i + 1] = new STNode(new Integer(i + 1), root, null, null);
-            tree[i / 2].setLeftChild(tree[i]);
-            tree[i].setSibling(tree[i + 1]);
-            
-            size += 2;
-        }
-        
-        /*root = new STNode(new Integer(0), null, null, null);
         STNode node1 = new STNode(new Integer(1), root, null, null);
         STNode node2 = new STNode(new Integer(2), root, null, null);
         root.setLeftChild(node1);
@@ -51,9 +47,9 @@ public class ListBinaryTree implements BinaryTree {
         STNode node9 = new STNode(new Integer(9), node4, null, null);
         STNode node10 = new STNode(new Integer(10), node4, null, null);
         node4.setLeftChild(node9);
-        node9.setSibling(node10);*/
-
-        //size = 11;
+        node9.setSibling(node10);
+        
+        size = 11;
     }
     
     @Override
@@ -74,7 +70,11 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to left child of pos
      */
     public Position leftChild(Position pos) throws InvalidPositionException {
-        STNode node = (STNode) pos.element();
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
+        
+        STNode node = (STNode) pos;
         
         return node.getLeftChild();
     }
@@ -85,8 +85,19 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to right child of pos
      */
     public Position rightChild(Position pos) throws InvalidPositionException {
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
         
-        return null;
+        STNode node = (STNode) pos;
+        STNode child = node.getLeftChild();
+        
+        if (child == null) {
+            return null;
+        }
+        else {
+            return child.getSibling();
+        }
     }
 
     @Override
@@ -95,8 +106,25 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to the sibling of pos
      */
     public Position sibling(Position pos) throws InvalidPositionException {
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
         
-        return null;
+        STNode node = (STNode) pos;
+        STNode parent = node.getParent();
+        STNode sibling = node.getSibling();
+        
+        if (sibling == null) {
+            if (parent == null) {
+                return null;
+            }
+            else {
+                return parent.getLeftChild();
+            }
+        }
+        else {
+            return sibling;
+        }
     }
 
     @Override
@@ -105,8 +133,13 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to the parent of pos
      */
     public Position parent(Position pos) throws InvalidPositionException {
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
         
-        return null;
+        STNode node = (STNode) pos;
+        
+        return node.getParent();
     }
 
     @Override
@@ -115,18 +148,28 @@ public class ListBinaryTree implements BinaryTree {
      * @return true if node has 1 or 2 childen
      */
     public boolean isInternal(Position pos) throws InvalidPositionException {
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
         
-        return false;
+        STNode node = (STNode) pos;
+        
+        return node.getLeftChild() != null;
     }
 
     @Override
     /**
      * @param pos is the node which will be examined
-     * @return true if node has no childen
+     * @return true if node has no children
      */
     public boolean isExternal(Position pos) throws InvalidPositionException {
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
         
-        return false;
+        STNode node = (STNode) pos;
+        
+        return node.getLeftChild() == null;
     }
 
     @Override
@@ -135,8 +178,13 @@ public class ListBinaryTree implements BinaryTree {
      * @return true if the node is the root node
      */
     public boolean isRoot(Position pos) throws InvalidPositionException {
+        if (pos == null || !(pos instanceof STNode)) {
+            throw new InvalidPositionException();
+        }
         
-        return false;
+        STNode node = (STNode) pos;
+        
+        return node == root;
     }
 
     @Override
@@ -152,7 +200,6 @@ public class ListBinaryTree implements BinaryTree {
      * @return true if the tree currently contains no Positions
      */
     public boolean isEmpty() {
-        
         return size == 0;
     }
 }
