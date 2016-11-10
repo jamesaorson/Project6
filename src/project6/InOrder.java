@@ -1,20 +1,22 @@
 package project6;
 
 /**
-  * What does it do?
+  * This class provides an InOrder extension of the EulerTour class.
   *
   * @author James Osborne
   * @version 1.0 
-  * File: <filename>
-  * Created:  11/4/2016
+  * File: InOrder.java
+  * Created: 04 Nov 2016
   * ©Copyright James Osborne. All rights reserved.
   * Summary of Modifications:
-  *     XX month XXXX – JAO – 
+  *     04 Nov 2016 – JAO – Created methods and their bodies. Got InOrder walk
+  *     functioning.
   * 
-  * Description: 
+  * Description: This walk utilizes a recursive algorithm for walking the tree
+  * InOrder (left, parent, right) and prints the walk order to the screen. This
+  * walk always starts from the root of the tree.
   */
 public class InOrder extends EulerTour {
-    
     public InOrder(BinaryTree newTree) {
         super(newTree);
     }
@@ -25,22 +27,25 @@ public class InOrder extends EulerTour {
      * @param result is a storage mechanism for results computed as this node
      */
     protected void visitInorder (Position pos, TraversalResult result) {
+        STNode leftChild = ((STNode) pos).getLeftChild();
         
-        
-        STNode node = (STNode) pos;
-        STNode leftChild = node.getLeftChild();
-        
-        if (leftChild != null) {
-            visitInorder(leftChild, null);
-            System.out.println(node.element());
-            visitInorder(leftChild.getSibling(), null);
+        //If there are no childern, print the element and fall out
+        //of this recursive call.
+        if (leftChild == null) {
+            System.out.println(pos.element());
         }
         else {
-            System.out.println(node.element());
+            //Otherwise, visit and print as left, parent, right.
+            visitInorder(leftChild, null);
+            System.out.println(pos.element());
+            visitInorder(leftChild.getSibling(), null);
         }
     }
     
-    public void execute(Position pos, TraversalResult result) {
-        this.visitInorder(pos, result);
+    /**
+      * Executes an inOrder walk of the tree for the user.
+      */
+    public void execute() {
+        this.visitInorder(tree.root(), null);
     }
 }

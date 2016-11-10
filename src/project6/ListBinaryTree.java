@@ -1,27 +1,56 @@
 package project6;
 
 /**
-  * What does it do?
+  * This class provides a ListBinaryTree object which can demonstrate inOrder,
+  * postOrder, and preOrder walks of the tree.
   *
   * @author James Osborne
-  * @version 1.0 
-  * File: <filename>
-  * Created:  11/4/2016
+  * @version 1.0
+  * File: ListBinaryTree.java
+  * Created: 04 Nov 2016
   * ©Copyright James Osborne. All rights reserved.
   * Summary of Modifications:
-  *     XX month XXXX – JAO – 
+  *     04 Nov 2016 – JAO – Created body for all of the methods implemented from
+  *     the BinaryTree interface.
   * 
-  * Description: 
+  * Description: This ListBinaryTree uses STNodes rather than BTNodes.The main
+  * purpose of this exact implementation is to be able to demonstrate inOrder,
+  * postOrder, and preOrder walks of the tree, for after calling fillTree, there
+  * is no present method for adding nodes to the tree.
   */
 public class ListBinaryTree implements BinaryTree {
-
     private STNode root;
     private int size;
     
-    public static void main (String[] args) {
-        
+    /**
+      * Default constructor for the ListBinaryTree.
+      */
+    public ListBinaryTree() {
+        root = null;
+        size = 0;
     }
     
+    public static void main (String[] args) {
+        ListBinaryTree myTree = new ListBinaryTree();
+        myTree.fillTree();
+        
+        InOrder inOrder = new InOrder(myTree);
+        PreOrder preOrder = new PreOrder(myTree);
+        PostOrder postOrder = new PostOrder(myTree);
+        
+        System.out.println("InOrder:");
+        inOrder.execute();
+        
+        System.out.println("\nPreOrder:");
+        preOrder.execute();
+        
+        System.out.println("\nPostOrder:");
+        postOrder.execute();
+    }
+    
+    /**
+      * Used to fill the tree up with elements for testing.
+      */
     public void fillTree() {
         root = new STNode(new Integer(0), null, null, null);
         STNode node1 = new STNode(new Integer(1), root, null, null);
@@ -70,13 +99,14 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to left child of pos
      */
     public Position leftChild(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
         
-        STNode node = (STNode) pos;
-        
-        return node.getLeftChild();
+        return ((STNode) pos).getLeftChild();
     }
 
     @Override
@@ -85,18 +115,21 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to right child of pos
      */
     public Position rightChild(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
+
+        //Store leftChild for checking and to get at its sibling.
+        STNode leftChild = ((STNode) pos).getLeftChild();
         
-        STNode node = (STNode) pos;
-        STNode child = node.getLeftChild();
-        
-        if (child == null) {
+        if (leftChild == null) {
             return null;
         }
         else {
-            return child.getSibling();
+            return leftChild.getSibling();
         }
     }
 
@@ -106,19 +139,26 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to the sibling of pos
      */
     public Position sibling(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
         
-        STNode node = (STNode) pos;
-        STNode parent = node.getParent();
-        STNode sibling = node.getSibling();
+        //Stores parent and sibling of pos for checking.
+        STNode parent = ((STNode) pos).getParent();
+        STNode sibling = ((STNode) pos).getSibling();
         
+        //Since the tree is not circular on the horzontal level, a null sibling
+        //could mean pos is either the rightmost child, or it has no sibling.
         if (sibling == null) {
+            //Pos has no other sibling because it has bo parent.
             if (parent == null) {
                 return null;
             }
             else {
+                //Returns sibling in the case pos was the rightmost sibling.
                 return parent.getLeftChild();
             }
         }
@@ -133,28 +173,30 @@ public class ListBinaryTree implements BinaryTree {
      * @return a reference to the parent of pos
      */
     public Position parent(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
         
-        STNode node = (STNode) pos;
-        
-        return node.getParent();
+        return ((STNode) pos).getParent();
     }
 
     @Override
     /**
      * @param pos is the node which will be examined
-     * @return true if node has 1 or 2 childen
+     * @return true if node has 1 or 2 children
      */
     public boolean isInternal(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
         
-        STNode node = (STNode) pos;
-        
-        return node.getLeftChild() != null;
+        return ((STNode) pos).getLeftChild() != null;
     }
 
     @Override
@@ -163,13 +205,14 @@ public class ListBinaryTree implements BinaryTree {
      * @return true if node has no children
      */
     public boolean isExternal(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
         
-        STNode node = (STNode) pos;
-        
-        return node.getLeftChild() == null;
+        return ((STNode) pos).getLeftChild() == null;
     }
 
     @Override
@@ -178,13 +221,14 @@ public class ListBinaryTree implements BinaryTree {
      * @return true if the node is the root node
      */
     public boolean isRoot(Position pos) throws InvalidPositionException {
+        //STNode implements the Position interface, so this checks that
+        //the pos parameter is the STNode implementation or not, nd also
+        //whether or not the pos is null.
         if (pos == null || !(pos instanceof STNode)) {
             throw new InvalidPositionException();
         }
         
-        STNode node = (STNode) pos;
-        
-        return node == root;
+        return (STNode) pos == root;
     }
 
     @Override
