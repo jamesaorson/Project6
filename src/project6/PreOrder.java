@@ -27,7 +27,7 @@ public class PreOrder extends EulerTour {
      * @param result is a storage mechanism for results computed as this node
      */
     protected void visitPreorder (Position pos, TraversalResult result) {        
-        STNode leftChild = ((STNode) pos).getLeftChild();
+        /*STNode leftChild = ((STNode) pos).getLeftChild();
         
         //Whether or not a child node exists, we print parent first.
         System.out.println(pos.element());
@@ -37,13 +37,15 @@ public class PreOrder extends EulerTour {
         if (leftChild != null) {
             visitPreorder(leftChild, null);
             visitPreorder(leftChild.getSibling(), null);
-        }
+        }*/
+        System.out.println(pos.element());
     }
     
     /**
       * Executes a preOrder walk of the tree for the user.
       */
     public void execute() {
-        this.visitPreorder(tree.root(), null);
+        this.performTour(tree.root());
+        //this.visitPreorder(tree.root(), null);
     }
 }

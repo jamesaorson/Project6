@@ -27,7 +27,7 @@ public class InOrder extends EulerTour {
      * @param result is a storage mechanism for results computed as this node
      */
     protected void visitInorder (Position pos, TraversalResult result) {
-        STNode leftChild = ((STNode) pos).getLeftChild();
+        /*STNode leftChild = ((STNode) pos).getLeftChild();
         
         //If there are no childern, print the element and fall out
         //of this recursive call.
@@ -39,13 +39,14 @@ public class InOrder extends EulerTour {
             visitInorder(leftChild, null);
             System.out.println(pos.element());
             visitInorder(leftChild.getSibling(), null);
-        }
+        }*/
+        System.out.println(pos.element());
     }
     
     /**
       * Executes an inOrder walk of the tree for the user.
       */
     public void execute() {
-        this.visitInorder(tree.root(), null);
+        this.performTour(tree.root());
     }
 }

@@ -27,7 +27,7 @@ public class PostOrder extends EulerTour {
      * @param result is a storage mechanism for results computed as this node
      */
     protected void visitPostorder (Position pos, TraversalResult result) {
-        STNode leftChild = ((STNode) pos).getLeftChild();
+        /*STNode leftChild = ((STNode) pos).getLeftChild();
         
         //If there are no childern, print the element and fall out
         //of this recursive call.
@@ -39,13 +39,15 @@ public class PostOrder extends EulerTour {
             visitPostorder(leftChild, null);
             visitPostorder(leftChild.getSibling(), null);
             System.out.println(pos.element());
-        }
+        }*/
+        System.out.println(pos.element());
     }
     
     /**
       * Executes a postOrder walk of the tree for the user.
       */
     public void execute() {
-        this.visitPostorder(tree.root(), null);
+        this.performTour(tree.root());
+        //this.visitPostorder(tree.root(), null);
     }
 }

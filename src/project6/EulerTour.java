@@ -33,16 +33,16 @@ public abstract class EulerTour {
         }
         else {
             visitPreorder (pos, result);
-			if (tree.leftChild(pos) != null) {
+            if (tree.leftChild(pos) != null) {
                 result.leftResult = performTour (tree.leftChild(pos) );
-			}
+            }
             visitInorder (pos, result);
-			if (tree.rightChild(pos) != null) {
-				result.rightResult = performTour (tree.rightChild(pos) );
-			}
+            if (tree.rightChild(pos) != null) {
+		result.rightResult = performTour (tree.rightChild(pos) );
+            }
             visitPostorder (pos, result);
         }
-        return computeResult( result);
+        return computeResult(result);
     }
 
     /**
