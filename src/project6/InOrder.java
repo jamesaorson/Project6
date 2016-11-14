@@ -23,23 +23,19 @@ public class InOrder extends EulerTour {
     
     @Override
     /**
+     * @param pos is the external node being visited
+     * @param result is a storage mechanism for results computed as this node
+     */
+    protected void visitExternal (Position pos, TraversalResult result) {
+        System.out.println(pos.element());
+    }
+    
+    @Override
+    /**
      * @param pos is the node being visited
      * @param result is a storage mechanism for results computed as this node
      */
     protected void visitInorder (Position pos, TraversalResult result) {
-        /*STNode leftChild = ((STNode) pos).getLeftChild();
-        
-        //If there are no childern, print the element and fall out
-        //of this recursive call.
-        if (leftChild == null) {
-            System.out.println(pos.element());
-        }
-        else {
-            //Otherwise, visit and print as left, parent, right.
-            visitInorder(leftChild, null);
-            System.out.println(pos.element());
-            visitInorder(leftChild.getSibling(), null);
-        }*/
         System.out.println(pos.element());
     }
     
